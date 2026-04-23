@@ -1,0 +1,306 @@
+:root {
+    --primary: #2563eb;
+    --secondary: #10b981;
+    --bg: #f8fafc;
+    --dark: #1e293b;
+    --text-muted: #64748b;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 450px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.screen { display: block; }
+.hidden { display: none !important; }
+
+/* --- HOME SCREEN --- */
+header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+header h1 { 
+    color: var(--primary); 
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+header p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.menu-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.menu-btn {
+    width: 100%;
+    padding: 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    text-align: left;
+    color: white;
+    transition: transform 0.2s, opacity 0.2s, box-shadow 0.2s;
+}
+
+.menu-btn:active { transform: scale(0.98); }
+.menu-btn strong { display: block; font-size: 18px; margin-bottom: 4px; }
+.menu-btn span { font-size: 13px; opacity: 0.9; }
+
+.btn-visual { background: var(--primary); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+.btn-reflex { background: var(--secondary); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+
+/* --- STUDY & DAY SELECT HEADER --- */
+.study-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+    min-height: 40px;
+}
+
+.back-link {
+    position: absolute;
+    left: 0;
+    background: #f1f5f9;
+    border: none;
+    color: var(--dark);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.back-link:hover { background: #e2e8f0; }
+
+#mode-title, #mode-title-select {
+    margin: 0;
+    font-size: 18px;
+    color: var(--dark);
+    text-align: center;
+    width: 100%;
+}
+
+/* --- SELECTION CONTROLS (Nút chọn nhanh) --- */
+.selection-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.btn-secondary-small {
+    background: #e2e8f0;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--dark);
+    transition: 0.2s;
+}
+
+.btn-secondary-small:hover { background: #cbd5e1; }
+
+/* --- DAY GRID (CHIA 3 CỘT) --- */
+.day-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* CHIA ĐỀU 3 CỘT */
+    gap: 10px;
+    margin-top: 5px;
+    max-height: 350px;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+.day-item {
+    display: flex;
+    flex-direction: column; /* Chuyển icon check xuống dưới hoặc cạnh tùy ý */
+    align-items: center;
+    justify-content: center;
+    padding: 12px 5px;
+    background: #f8fafc;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.day-item:has(input:checked) {
+    border-color: var(--primary);
+    background: #eff6ff;
+}
+
+.day-item input {
+    margin-top: 5px;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary);
+}
+
+.day-item span {
+    font-weight: 600;
+    color: var(--dark);
+    font-size: 13px; /* Giảm nhẹ size chữ để vừa 3 cột */
+}
+
+/* --- VISUAL AREA --- */
+.visual-area {
+    width: 100%;
+    height: 280px;
+    border-radius: 15px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.visual-area:active { transform: scale(0.98); background: #e2e8f0; }
+
+.context-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 15px;
+}
+
+.visual-area:has(img[style*="display: none"])::after {
+    content: "🎧";
+    font-size: 60px;
+    animation: pulse 2s infinite;
+}
+
+.visual-area:has(img[style*="display: none"])::before {
+    content: "Tap to Listen";
+    position: absolute;
+    bottom: 25px;
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+.instruction {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 15px 0 10px 0;
+    font-style: italic;
+    text-align: center;
+}
+
+/* --- AUDIO GRID (Học tập) --- */
+.audio-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 5px;
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+.btn-audio {
+    min-width: 160px;
+    flex: 0 1 auto;
+    padding: 15px 25px;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    background: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.day-item.locked {
+    opacity: 0.6;
+    background: #f1f5f9;
+    cursor: not-allowed;
+    border: 1px dashed #cbd5e1;
+}
+
+.day-item.locked span {
+    color: #94a3b8;
+}
+
+.day-item.locked input {
+    display: none; /* Ẩn ô tích đi nếu chưa được mở */
+}
+
+.login-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 50px;
+}
+.error-msg {
+    color: #ef4444;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    background: #fee2e2;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.btn-audio:active { background: #f8fafc; transform: translateY(2px); }
+.btn-prompt { border-color: var(--primary); background-color: #eff6ff; color: var(--primary); }
+.btn-check { border-color: var(--secondary) !important; background-color: #ecfdf5 !important; color: var(--secondary) !important; }
+
+/* --- FOOTER --- */
+.footer-nav { margin-top: auto; padding-top: 20px; }
+.next-btn {
+    width: 100%;
+    padding: 18px;
+    background: var(--dark);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.next-btn:active { transform: scale(0.97); }

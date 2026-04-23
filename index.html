@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reflex Eng - Jennifer's Learning Tool</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+    <div class="container">
+        <div id="login-screen" class="screen">
+            <header>
+                <h1>Reflex Eng</h1>
+                <p>Vui lòng đăng nhập để tiếp tục</p>
+            </header>
+            <div class="login-box">
+                <div id="g_id_onload"
+                     data-client_id="404754310046-pks5netfp48lreb7ho3t24o6qt48es9j.apps.googleusercontent.com"
+                     data-callback="handleCredentialResponse">
+                </div>
+                <div class="g_id_signin" data-type="standard"></div>
+                <p id="login-error" class="error-msg hidden">Email của bạn không có quyền truy cập!</p>
+            </div>
+        </div>
+
+        <div id="home-screen" class="screen hidden">
+            <header>
+                <h1>Reflex Eng</h1>
+                <p>Chào bạn, chọn chế độ học hôm nay:</p>
+            </header>
+            <div class="menu-options">
+                <button class="menu-btn btn-visual" onclick="startApp('visual')">
+                    <strong>1. Học theo hình ảnh</strong>
+                    <span>(Nhìn ảnh & Tự nhớ câu thoại)</span>
+                </button>
+                <button class="menu-btn btn-reflex" onclick="startApp('reflex')">
+                    <strong>2. Phản xạ A - B</strong>
+                    <span>(Nghe máy nói & Đối đáp lại)</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="day-select-screen" class="screen hidden">
+            <div class="study-header">
+                <button class="back-link" onclick="goHome()">← Quay lại</button>
+                <h3 id="mode-title-select">Chọn bài cần học</h3>
+            </div>
+            <div class="selection-controls">
+                <p class="instruction">Chọn các ngày muốn ôn tập:</p>
+                <button id="btn-select-all" class="btn-secondary-small" onclick="toggleSelectAll()">Bỏ chọn tất cả</button>
+            </div>
+            <div id="day-checklist" class="day-grid"></div>
+            <div class="footer-nav">
+                <button class="next-btn" onclick="confirmSelection()">Bắt đầu học ➔</button>
+            </div>
+        </div>
+
+        <div id="study-screen" class="screen hidden">
+            <div class="study-header">
+                <button class="back-link" onclick="goHome()">← Quay lại</button>
+                <h3 id="mode-title">Chế độ học</h3>
+            </div>
+            <div class="visual-area" onclick="handleVisualClick()">
+                <img id="display-img" class="context-img" src="" alt="Ngữ cảnh">
+            </div>
+            <div id="controls-container" class="control-group">
+                <p id="mode-instruction" class="instruction">Nhấp để nghe từng lượt nói:</p>
+                <div id="audio-grid" class="audio-grid"></div>
+            </div>
+            <div class="footer-nav">
+                <button class="next-btn" onclick="renderContent()">Shuffle Next ➔</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
