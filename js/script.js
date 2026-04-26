@@ -27,7 +27,20 @@ function playAudioWithSpeed(path) {
     if (!path) return;
     const audio = new Audio(path);
     const speed = document.getElementById('speed-select').value;
+    const icon = document.querySelector('.pulse-icon'); // Tìm icon tai nghe
+
     audio.playbackRate = parseFloat(speed);
+
+    // Khi nhạc bắt đầu phát
+    audio.onplay = () => {
+        if (icon) icon.classList.add('playing');
+    };
+
+    // Khi nhạc kết thúc
+    audio.onended = () => {
+        if (icon) icon.classList.remove('playing');
+    };
+
     audio.play();
 }
 
