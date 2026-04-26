@@ -49,14 +49,21 @@
         <div id="day-select-screen" class="screen hidden">
             <div class="study-header">
                 <button class="back-link" onclick="goHome()">← Quay lại</button>
-                <h3 id="mode-title-select">Chọn bài cần học</h3>
-            </div>
-            <div id="day-checklist" class="day-grid"></div>
-            <div class="footer-nav">
-                <button class="next-btn" onclick="confirmSelection()">Bắt đầu học ➔</button>
-            </div>
+                <h3>Chọn bài cần học</h3>
         </div>
 
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px;">
+            <p style="font-size: 13px; color: #64748b; font-style: italic; margin: 0;">Chọn các ngày muốn học:</p>
+            <button id="btn-select-all" class="btn-secondary-small" onclick="toggleSelectAll()" style="padding: 6px 12px; border-radius: 6px; border: none; background: #e2e8f0; font-weight: bold; cursor: pointer; font-size: 12px;">
+                Bỏ chọn tất cả
+            </button>
+        </div>
+
+    <div id="day-checklist" class="day-grid"></div>
+    <div class="footer-nav">
+        <button class="next-btn" onclick="confirmSelection()">Bắt đầu học ➔</button>
+    </div>
+</div>
         <div id="study-screen" class="screen hidden">
             <div class="study-header">
                 <button class="back-link" onclick="goHome()">← Quay lại</button>
