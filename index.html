@@ -50,20 +50,22 @@
             <div class="study-header">
                 <button class="back-link" onclick="goHome()">← Quay lại</button>
                 <h3>Chọn bài cần học</h3>
+            </div>
+
+            <div class="selection-controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px;">
+                <p style="font-size: 13px; color: #64748b; font-style: italic; margin: 0;">Chọn các ngày muốn học:</p>
+                <button id="btn-select-all" class="btn-secondary-small" onclick="toggleSelectAll()">
+                    Bỏ chọn tất cả
+                </button>
+            </div>
+
+            <div id="day-checklist" class="day-grid"></div>
+
+            <div class="footer-nav">
+                <button class="next-btn" onclick="confirmSelection()">Bắt đầu học ➔</button>
+            </div>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px;">
-            <p style="font-size: 13px; color: #64748b; font-style: italic; margin: 0;">Chọn các ngày muốn học:</p>
-            <button id="btn-select-all" class="btn-secondary-small" onclick="toggleSelectAll()" style="padding: 6px 12px; border-radius: 6px; border: none; background: #e2e8f0; font-weight: bold; cursor: pointer; font-size: 12px;">
-                Bỏ chọn tất cả
-            </button>
-        </div>
-
-    <div id="day-checklist" class="day-grid"></div>
-    <div class="footer-nav">
-        <button class="next-btn" onclick="confirmSelection()">Bắt đầu học ➔</button>
-    </div>
-</div>
         <div id="study-screen" class="screen hidden">
             <div class="study-header">
                 <button class="back-link" onclick="goHome()">← Quay lại</button>
@@ -72,9 +74,10 @@
             
             <div class="visual-area" onclick="handleVisualClick()">
                 <img id="display-img" class="context-img" src="" alt="Ngữ cảnh">
+                
                 <div id="audio-placeholder" class="hidden" style="text-align: center;">
-                    <span style="font-size: 80px;">🎧</span>
-                    <p style="font-weight: bold; color: var(--primary); margin-top: 10px;">ROLEPLAY MODE</p>
+                    <span style="font-size: 80px;" class="pulse-icon">🎧</span>
+                    <p id="placeholder-text" style="font-weight: bold; color: var(--primary); margin-top: 10px; font-size: 18px; text-transform: uppercase;"></p>
                 </div>
             </div>
 
@@ -99,6 +102,7 @@
 
                 <div id="audio-grid" class="audio-grid"></div>
             </div>
+
             <div class="footer-nav">
                 <button class="next-btn" onclick="renderContent()">Shuffle Next ➔</button>
             </div>
