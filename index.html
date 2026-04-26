@@ -23,6 +23,7 @@
                 <div class="g_id_signin" data-type="standard"></div>
                 <p id="login-error" class="error-msg hidden">Email của bạn không có quyền truy cập!</p>
                 <p style="font-size: 11px; color: #888; margin-top: 20px; font-style: italic;">
+                    * Bằng cách đăng nhập, bạn đồng ý để hệ thống ghi nhận lịch sử học tập nhằm cải thiện nội dung bài học.
                 </p>
             </div>
         </div>
@@ -67,20 +68,32 @@
             
             <div class="visual-area" onclick="handleVisualClick()">
                 <img id="display-img" class="context-img" src="" alt="Ngữ cảnh">
+                <div id="audio-placeholder" class="hidden" style="text-align: center;">
+                    <span style="font-size: 80px;">🎧</span>
+                    <p style="font-weight: bold; color: var(--primary); margin-top: 10px;">ROLEPLAY MODE</p>
+                    <p style="font-size: 12px; color: #666; font-style: italic;">(Tập trung phản xạ không hình ảnh)</p>
+                </div>
             </div>
 
             <div id="speed-control-area">
                 <label for="speed-select">Tốc độ nghe:</label>
                 <select id="speed-select">
                     <option value="1.0">Bình thường (1x)</option>
-                    <option value="0.85">Chậm vừa (0.85x)</option>
+                    <option value="0.85" selected>Chậm vừa (0.85x)</option>
                     <option value="0.6">Chậm (0.6x)</option>
                     <option value="0.45">Rất chậm (0.45x)</option>
                 </select>
             </div>
 
             <div id="controls-container" class="control-group">
-                <p id="mode-instruction" class="instruction">Nhấp để nghe từng lượt nói:</p>
+                <p id="mode-instruction" class="instruction"></p>
+                
+                <div id="full-audio-area" class="hidden" style="text-align: center; margin-bottom: 15px;">
+                    <button class="btn-audio" id="btn-full-play" style="width: 100%; background: #fffbeb; border-color: #f6e05e;">
+                        🔊 Phát toàn bộ hội thoại
+                    </button>
+                </div>
+
                 <div id="audio-grid" class="audio-grid"></div>
             </div>
             <div class="footer-nav">
