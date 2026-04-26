@@ -23,25 +23,46 @@ function getLessonTitle(id) {
     return titles[id] || "ROLEPLAY MODE";
 }
 
+// Thêm biến toàn cục ở đầu file JS để quản lý audio đang phát
+let currentAudio = null; 
+
 function playAudioWithSpeed(path) {
     if (!path) return;
-    const audio = new Audio(path);
+
+    // BƯỚC 1: DỪNG TẤT CẢ AUDIO ĐANG PHÁT TRƯỚC ĐÓ
+    stopAllAudio();
+
+    // BƯỚC 2: TẠO AUDIO MỚI
+    currentAudio = new Audio(path);
     const speed = document.getElementById('speed-select').value;
-    const icon = document.querySelector('.pulse-icon'); // Tìm icon tai nghe
+    const icon = document.querySelector('.pulse-icon');
 
-    audio.playbackRate = parseFloat(speed);
+    currentAudio.playbackRate = parseFloat(speed);
 
-    // Khi nhạc bắt đầu phát
-    audio.onplay = () => {
+    currentAudio.onplay = () => {
         if (icon) icon.classList.add('playing');
     };
 
-    // Khi nhạc kết thúc
-    audio.onended = () => {
+    currentAudio.onended = () => {
         if (icon) icon.classList.remove('playing');
+        currentAudio = null; // Giải phóng bộ nhớ khi phát xong
     };
 
-    audio.play();
+    currentAudio.play();
+}
+
+// HÀM DỪNG KHẨN CẤP (Dùng cho nút bấm hoặc dùng nội bộ)
+function stopAllAudio() {
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0; // Đưa về giây đầu tiên
+        
+        // Xóa hiệu ứng nhấp nháy ngay lập tức
+        const icon = document.querySelector('.pulse-icon');
+        if (icon) icon.classList.remove('playing');
+        
+        currentAudio = null;
+    }
 }
 
 async function handleCredentialResponse(response) {
