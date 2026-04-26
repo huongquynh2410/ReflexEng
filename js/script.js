@@ -118,77 +118,68 @@ function renderContent() {
     
     const img = document.getElementById('display-img');
     const placeholder = document.getElementById('audio-placeholder');
+    const pText = document.getElementById('placeholder-text');
     const fullAudioCont = document.getElementById('full-audio-container');
     const grid = document.getElementById('audio-grid');
     
-    // Reset giao diện
+    // Reset trạng thái ban đầu
     grid.innerHTML = '';
     placeholder.classList.add('hidden');
     img.classList.remove('hidden');
     fullAudioCont.classList.add('hidden');
+    img.style.display = 'block';
 
     if (currentMode === 'roleplay') {
-        // Giao diện không hình ảnh
+        // TÍNH NĂNG 3: ROLEPLAY (Giữ nguyên như cũ)
         img.classList.add('hidden');
         placeholder.classList.remove('hidden');
-        
-        // Cập nhật tiêu đề theo bối cảnh
-        const titleElement = placeholder.querySelector('p');
-        if (titleElement) titleElement.innerText = getLessonTitle(currentItem.id);
-        
-        document.getElementById('mode-title').innerText = "Roleplay Master";
-        document.getElementById('mode-instruction').innerText = "Luyện hội thoại dài:";
+        pText.innerText = getLessonTitle(currentItem.id);
         
         if (currentItem.fullAudio) {
             fullAudioCont.classList.remove('hidden');
             document.getElementById('btn-play-full').onclick = () => playAudioWithSpeed(currentItem.fullAudio);
         }
-        
-        // Tạo nút cho từng câu thoại
         currentItem.audios.forEach((path, i) => {
-            const btn = document.createElement('button'); 
-            btn.className = 'btn-audio'; 
-            btn.innerText = `Câu ${i + 1}`;
-            btn.onclick = (e) => { e.stopPropagation(); playAudioWithSpeed(path); };
-            grid.appendChild(btn);
+            const btn = document.createElement('button'); btn.className = 'btn-audio'; btn.innerText = `Câu ${i + 1}`;
+            btn.onclick = () => playAudioWithSpeed(path); grid.appendChild(btn);
+        });
+    } else if (currentMode === 'reflex') {
+        // --- TÍNH NĂNG 2: PHẢN XẠ A - B (CHỈNH SỬA THEO Ý JENNIFER) ---
+        document.getElementById('mode-title').innerText = "Phản xạ A - B";
+        document.getElementById('mode-instruction').innerText = "Nghe máy nói và đối đáp lại:";
+        
+        // LUÔN HIỆN TAI NGHE, KHÔNG HIỆN ẢNH
+        img.classList.add('hidden');
+        placeholder.classList.remove('hidden');
+        pText.innerText = "TAP TO LISTEN";
+        
+        // Chọn ngẫu nhiên 1 câu làm câu hỏi
+        promptAudio = currentItem.audios[Math.floor(Math.random() * currentItem.audios.length)];
+        
+        // Tạo các nút Check Answer cho tất cả các câu còn lại trong mảng audios
+        currentItem.audios.forEach((path, i) => {
+            if (path !== promptAudio) {
+                const btn = document.createElement('button'); 
+                btn.className = 'btn-audio btn-check'; 
+                btn.innerHTML = `✅ Check Answer ${currentItem.audios.length > 2 ? i + 1 : ''}`;
+                btn.onclick = (e) => { 
+                    e.stopPropagation(); 
+                    playAudioWithSpeed(path); 
+                    // Quan trọng: Không cho hiện lại ảnh ở đây
+                };
+                grid.appendChild(btn);
+            }
         });
     } else {
-        // Giao diện có hình ảnh (Visual & Reflex)
+        // TÍNH NĂNG 1: HỌC THEO HÌNH ẢNH (Giữ nguyên hiển thị ảnh)
+        document.getElementById('mode-title').innerText = "Học theo hình ảnh";
         img.src = currentItem.img;
-        
-        if (currentMode === 'reflex') {
-            document.getElementById('mode-title').innerText = "Phản xạ A - B";
-            document.getElementById('mode-instruction').innerText = "Nghe máy nói và đối đáp lại:";
-            img.style.display = 'none';
-            
-            promptAudio = currentItem.audios[Math.floor(Math.random() * currentItem.audios.length)];
-            
-            const btn = document.createElement('button'); 
-            btn.className = 'btn-audio btn-check'; 
-            btn.innerHTML = `✅ Check Answer`;
-            btn.onclick = (e) => { 
-                e.stopPropagation();
-                const reply = currentItem.audios.find(a => a !== promptAudio);
-                if (reply) playAudioWithSpeed(reply); 
-                img.style.display = 'block'; 
-            };
-            grid.appendChild(btn);
-        } else {
-            document.getElementById('mode-title').innerText = "Học theo hình ảnh";
-            document.getElementById('mode-instruction').innerText = "Nhìn ảnh và nhớ lại hội thoại:";
-            img.style.display = 'block';
-            
-            currentItem.audios.forEach((path, i) => {
-                const btn = document.createElement('button'); 
-                btn.className = 'btn-audio'; 
-                btn.innerText = `🔈 Person ${String.fromCharCode(65 + i)}`;
-                btn.onclick = (e) => { e.stopPropagation(); playAudioWithSpeed(path); };
-                grid.appendChild(btn);
-            });
-        }
+        currentItem.audios.forEach((path, i) => {
+            const btn = document.createElement('button'); btn.className = 'btn-audio'; btn.innerText = `🔈 Person ${String.fromCharCode(65 + i)}`;
+            btn.onclick = () => playAudioWithSpeed(path); grid.appendChild(btn);
+        });
     }
 }
-
 // Xử lý khi click vào khung ảnh (cho chế độ Reflex)
 function handleVisualClick() { 
     if (currentMode === 'reflex' && promptAudio) playAudioWithSpeed(promptAudio); 
