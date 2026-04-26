@@ -77,11 +77,20 @@ header p { color: var(--text-muted); font-size: 14px; }
 #speed-select:hover { border-color: var(--primary); }
 
 /* --- AUDIO BUTTONS --- */
-.audio-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 15px; }
-.btn-audio {
-    min-width: 140px; padding: 15px; border-radius: 12px; border: 2px solid #e2e8f0; background: white; 
-    font-weight: 600; cursor: pointer; transition: 0.2s; color: var(--dark); display: flex; align-items: center; justify-content: center; gap: 8px;
-}
+.audio-grid {display: grid;grid-template-columns: repeat(2, 1fr);gap: 12px;margin-top: 15px;width: 100%; }
+.btn-audio {width: 100%; 
+    padding: 15px 10px;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    background: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;}
 .btn-audio:active { transform: translateY(2px); background: #f8fafc; }
 .btn-check { border-color: var(--secondary) !important; background-color: #ecfdf5 !important; color: var(--secondary) !important; }
 
