@@ -19,31 +19,35 @@ fetch('js/data.json')
     })
     .catch(err => console.error("Lỗi JSON:", err));
 
+// --- HÀM HỖ TRỢ: PHÁT AUDIO VỚI TỐC ĐỘ TÙY CHỈNH ---
+function playAudioWithSpeed(path) {
+    const audio = new Audio(path);
+    const speed = document.getElementById('speed-select').value;
+    audio.playbackRate = parseFloat(speed);
+    audio.play();
+}
+
 // --- LOGIC ĐĂNG NHẬP & THEO DÕI TRUY CẬP ---
 async function handleCredentialResponse(response) {
     const responsePayload = decodeJwtResponse(response.credential);
     const userEmail = responsePayload.email.toLowerCase();
 
     try {
-        // Lấy danh sách email từ Google Sheet
         const res = await fetch(SHEET_CSV_URL);
         const csvData = await res.text();
         
-        // Tối ưu: Chỉ lấy cột A và lọc bỏ các dòng trống hoặc tiêu đề không phải mail
         const allowedEmails = csvData.split(/\r?\n/)
                                      .map(line => line.split(',')[0].trim().toLowerCase())
                                      .filter(email => email.includes('@'));
 
         if (allowedEmails.includes(userEmail)) {
-            // Đăng nhập thành công
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('home-screen').classList.remove('hidden');
 
-            // --- HỆ THỐNG THEO DÕI (BACKEND) ---
-            // Gửi thông tin người vào học về tab Logs
+            // Gửi thông tin về tab Logs
             fetch(WEB_APP_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Rất quan trọng để tránh lỗi CORS trình duyệt
+                mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email: userEmail,
@@ -52,7 +56,6 @@ async function handleCredentialResponse(response) {
             });
 
         } else {
-            // Email không có trong danh sách
             document.getElementById('login-error').classList.remove('hidden');
             google.accounts.id.disableAutoSelect();
         }
@@ -68,7 +71,7 @@ function decodeJwtResponse(token) {
     return JSON.parse(jsonPayload);
 }
 
-// --- CÁC HÀM LOGIC HỌC TẬP (GIỮ NGUYÊN) ---
+// --- CÁC HÀM LOGIC HỌC TẬP ---
 function startApp(mode) {
     currentMode = mode;
     document.getElementById('home-screen').classList.add('hidden');
@@ -139,7 +142,8 @@ function renderContent() {
             const btn = document.createElement('button');
             btn.className = 'btn-audio btn-check';
             btn.innerHTML = `✅ Check Answer`;
-            btn.onclick = (e) => { e.stopPropagation(); new Audio(path).play(); };
+            // TÍCH HỢP TỐC ĐỘ PHÁT TẠI ĐÂY
+            btn.onclick = (e) => { e.stopPropagation(); playAudioWithSpeed(path); };
             container.appendChild(btn);
         });
     } else {
@@ -149,7 +153,8 @@ function renderContent() {
             const btn = document.createElement('button');
             btn.className = 'btn-audio';
             btn.innerText = `🔈 Person ${String.fromCharCode(65 + index)}`;
-            btn.onclick = (e) => { e.stopPropagation(); new Audio(path).play(); };
+            // TÍCH HỢP TỐC ĐỘ PHÁT TẠI ĐÂY
+            btn.onclick = (e) => { e.stopPropagation(); playAudioWithSpeed(path); };
             container.appendChild(btn);
         });
     }
@@ -164,7 +169,10 @@ function toggleSelectAll() {
 }
 
 function handleVisualClick() {
-    if (currentMode === 'reflex' && promptAudio) new Audio(promptAudio).play();
+    if (currentMode === 'reflex' && promptAudio) {
+        // TÍCH HỢP TỐC ĐỘ PHÁT TẠI ĐÂY
+        playAudioWithSpeed(promptAudio);
+    }
 }
 
 function goHome() {
