@@ -6,11 +6,8 @@ let promptAudio = null;
 let remainingAudios = [];
 let isAllSelected = true;
 
-// 1. Cấu hình các URL kết nối Google Sheet
-// URL CSV để kiểm tra quyền truy cập
+// 1. Cấu hình các đường link kết nối Google Sheet
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSDiVOTUA-UZjnvzTogaMSTgb1uw7PFFp7hLLKdY_SXKJutAHuH8XbWyEGla5AGfxRftV0aUFqW81GM/pub?gid=0&single=true&output=csv';
-
-// URL Apps Script để ghi nhật ký (Log)
 const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzxJDpRgXk_3hDVdWaE1E_teMwYzhZ5m_MF_bv9ZB58qTO5ZwgJauoQh_nhX5y5pt-i/exec';
 
 // 2. Tải dữ liệu từ file JSON
@@ -22,7 +19,7 @@ fetch('js/data.json')
     })
     .catch(err => console.error("Lỗi JSON:", err));
 
-// --- LOGIC ĐĂNG NHẬP & KIỂM TRA QUYỀN ---
+// --- LOGIC ĐĂNG NHẬP & THEO DÕI TRUY CẬP ---
 async function handleCredentialResponse(response) {
     const responsePayload = decodeJwtResponse(response.credential);
     const userEmail = responsePayload.email.toLowerCase();
@@ -32,35 +29,35 @@ async function handleCredentialResponse(response) {
         const res = await fetch(SHEET_CSV_URL);
         const csvData = await res.text();
         
-        // Tách dòng và lấy cột A (phòng trường hợp Jennifer ghi chú tên ở cột B)
-        const allowedEmails = csvData.split(/\r?\n/).map(line => {
-            return line.split(',')[0].trim().toLowerCase();
-        });
+        // Tối ưu: Chỉ lấy cột A và lọc bỏ các dòng trống hoặc tiêu đề không phải mail
+        const allowedEmails = csvData.split(/\r?\n/)
+                                     .map(line => line.split(',')[0].trim().toLowerCase())
+                                     .filter(email => email.includes('@'));
 
         if (allowedEmails.includes(userEmail)) {
             // Đăng nhập thành công
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('home-screen').classList.remove('hidden');
 
-            // --- PHẦN THEO DÕI TRUY CẬP (LOGS) ---
+            // --- HỆ THỐNG THEO DÕI (BACKEND) ---
+            // Gửi thông tin người vào học về tab Logs
             fetch(WEB_APP_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Tránh lỗi bảo mật trình duyệt
+                mode: 'no-cors', // Rất quan trọng để tránh lỗi CORS trình duyệt
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email: userEmail,
-                    action: 'Đăng nhập vào hệ thống'
+                    action: 'Đã vào web học bài'
                 })
             });
-            // -------------------------------------
 
         } else {
             // Email không có trong danh sách
             document.getElementById('login-error').classList.remove('hidden');
-            google.accounts.id.disableAutoSelect(); 
+            google.accounts.id.disableAutoSelect();
         }
     } catch (error) {
-        alert("Lỗi kết nối. Hãy đảm bảo Sheet đã được 'Publish to web' đúng định dạng CSV.");
+        alert("Lỗi kết nối. Hãy kiểm tra lại link CSV và trạng thái công bố của Google Sheet.");
     }
 }
 
@@ -71,7 +68,7 @@ function decodeJwtResponse(token) {
     return JSON.parse(jsonPayload);
 }
 
-// --- CÁC HÀM LOGIC ỨNG DỤNG ---
+// --- CÁC HÀM LOGIC HỌC TẬP (GIỮ NGUYÊN) ---
 function startApp(mode) {
     currentMode = mode;
     document.getElementById('home-screen').classList.add('hidden');
@@ -155,20 +152,6 @@ function renderContent() {
             btn.onclick = (e) => { e.stopPropagation(); new Audio(path).play(); };
             container.appendChild(btn);
         });
-    }
-
-    // Tối ưu tải trước ảnh
-    preloadNextImages();
-}
-
-function preloadNextImages() {
-    if (filteredDatabase.length < 2) return;
-    for (let i = 0; i < 3; i++) {
-        const randomItem = filteredDatabase[Math.floor(Math.random() * filteredDatabase.length)];
-        if (randomItem && randomItem.img) {
-            const img = new Image();
-            img.src = randomItem.img;
-        }
     }
 }
 
