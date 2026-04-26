@@ -22,6 +22,9 @@
                 </div>
                 <div class="g_id_signin" data-type="standard"></div>
                 <p id="login-error" class="error-msg hidden">Email của bạn không có quyền truy cập!</p>
+                <p style="font-size: 11px; color: #888; margin-top: 20px; font-style: italic;">
+                    * Bằng cách đăng nhập, bạn đồng ý để hệ thống ghi nhận lịch sử học tập nhằm cải thiện nội dung.
+                </p>
             </div>
         </div>
 
@@ -62,9 +65,21 @@
                 <button class="back-link" onclick="goHome()">← Quay lại</button>
                 <h3 id="mode-title">Chế độ học</h3>
             </div>
+            
             <div class="visual-area" onclick="handleVisualClick()">
                 <img id="display-img" class="context-img" src="" alt="Ngữ cảnh">
             </div>
+
+            <div id="speed-control-area" style="text-align: center; margin: 15px 0; background: #f9f9f9; padding: 10px; border-radius: 10px;">
+                <label for="speed-select" style="font-size: 13px; font-weight: bold; color: #555;">Tốc độ nghe:</label>
+                <select id="speed-select" style="padding: 5px 10px; border-radius: 5px; border: 1px solid #ddd; cursor: pointer;">
+                    <option value="1.0">Bình thường (1x)</option>
+                    <option value="0.85">Chậm vừa (0.85x)</option>
+                    <option value="0.6">Chậm (0.6x)</option>
+                    <option value="0.45">Rất chậm (0.45x)</option>
+                </select>
+            </div>
+
             <div id="controls-container" class="control-group">
                 <p id="mode-instruction" class="instruction">Nhấp để nghe từng lượt nói:</p>
                 <div id="audio-grid" class="audio-grid"></div>
