@@ -98,7 +98,7 @@ function renderDayChecklist() {
 // Xác nhận bài học đã chọn
 function confirmSelection() {
     const selectedDays = Array.from(document.querySelectorAll('#day-checklist input:checked')).map(cb => cb.value);
-    if (selectedDays.length === 0) return alert("Chọn ít nhất 1 bài nhé Jennifer!");
+    if (selectedDays.length === 0) return alert("Chọn ít nhất 1 bài nhé!");
 
     filteredDatabase = database.filter(item => {
         const isSelectedDay = selectedDays.includes(item.day);
@@ -137,7 +137,7 @@ function renderContent() {
         if (titleElement) titleElement.innerText = getLessonTitle(currentItem.id);
         
         document.getElementById('mode-title').innerText = "Roleplay Master";
-        document.getElementById('mode-instruction').innerText = "Luyện hội thoại dài (Không hình ảnh):";
+        document.getElementById('mode-instruction').innerText = "Luyện hội thoại dài:";
         
         if (currentItem.fullAudio) {
             fullAudioCont.classList.remove('hidden');
