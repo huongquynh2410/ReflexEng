@@ -6,10 +6,14 @@ let promptAudio = null;
 let remainingAudios = [];
 let isAllSelected = true;
 
-// URL CSV từ Google Sheet của Jennifer (đã chuyển sang định dạng pubhtml?output=csv)
+// 1. Cấu hình các URL kết nối Google Sheet
+// URL CSV để kiểm tra quyền truy cập
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSDiVOTUA-UZjnvzTogaMSTgb1uw7PFFp7hLLKdY_SXKJutAHuH8XbWyEGla5AGfxRftV0aUFqW81GM/pub?gid=0&single=true&output=csv';
 
-// 1. Tải dữ liệu từ file JSON
+// URL Apps Script để ghi nhật ký (Log)
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzxJDpRgXk_3hDVdWaE1E_teMwYzhZ5m_MF_bv9ZB58qTO5ZwgJauoQh_nhX5y5pt-i/exec';
+
+// 2. Tải dữ liệu từ file JSON
 fetch('js/data.json')
     .then(response => response.json())
     .then(data => {
@@ -27,19 +31,36 @@ async function handleCredentialResponse(response) {
         // Lấy danh sách email từ Google Sheet
         const res = await fetch(SHEET_CSV_URL);
         const csvData = await res.text();
-        const allowedEmails = csvData.split(/\r?\n/).map(e => e.trim().toLowerCase());
+        
+        // Tách dòng và lấy cột A (phòng trường hợp Jennifer ghi chú tên ở cột B)
+        const allowedEmails = csvData.split(/\r?\n/).map(line => {
+            return line.split(',')[0].trim().toLowerCase();
+        });
 
         if (allowedEmails.includes(userEmail)) {
             // Đăng nhập thành công
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('home-screen').classList.remove('hidden');
+
+            // --- PHẦN THEO DÕI TRUY CẬP (LOGS) ---
+            fetch(WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Tránh lỗi bảo mật trình duyệt
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: userEmail,
+                    action: 'Đăng nhập vào hệ thống'
+                })
+            });
+            // -------------------------------------
+
         } else {
             // Email không có trong danh sách
             document.getElementById('login-error').classList.remove('hidden');
-            google.accounts.id.disableAutoSelect(); // Cho phép chọn tài khoản khác
+            google.accounts.id.disableAutoSelect(); 
         }
     } catch (error) {
-        alert("Lỗi kiểm tra danh sách email. Hãy đảm bảo Sheet đã được 'Publish to web' dưới dạng CSV.");
+        alert("Lỗi kết nối. Hãy đảm bảo Sheet đã được 'Publish to web' đúng định dạng CSV.");
     }
 }
 
@@ -50,7 +71,7 @@ function decodeJwtResponse(token) {
     return JSON.parse(jsonPayload);
 }
 
-// --- CÁC HÀM LOGIC CŨ GIỮ NGUYÊN ---
+// --- CÁC HÀM LOGIC ỨNG DỤNG ---
 function startApp(mode) {
     currentMode = mode;
     document.getElementById('home-screen').classList.add('hidden');
@@ -134,6 +155,20 @@ function renderContent() {
             btn.onclick = (e) => { e.stopPropagation(); new Audio(path).play(); };
             container.appendChild(btn);
         });
+    }
+
+    // Tối ưu tải trước ảnh
+    preloadNextImages();
+}
+
+function preloadNextImages() {
+    if (filteredDatabase.length < 2) return;
+    for (let i = 0; i < 3; i++) {
+        const randomItem = filteredDatabase[Math.floor(Math.random() * filteredDatabase.length)];
+        if (randomItem && randomItem.img) {
+            const img = new Image();
+            img.src = randomItem.img;
+        }
     }
 }
 
