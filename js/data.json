@@ -89,7 +89,7 @@
 
 {"id":"72","day":"Day 18","img":"images/72.png","audios":["audio/72_A.mp3","audio/72_B.mp3"]},
 {"id":"73","day":"Day 18","img":"images/73.png","audios":["audio/73_A.mp3","audio/73_B.mp3"]},
-{"id":"74","day":"Day 18","img":"images/74.png","audios":["audio/74_A.mp3","audio/74_B.mp3"],"audio/74_C.mp3"]},
+{"id":"74","day":"Day 18","img":"images/74.png","audios":["audio/74_A.mp3","audio/74_B.mp3","audio/74_C.mp3"]},
 {"id":"75","day":"Day 18","img":"images/75.png","audios":["audio/75_A.mp3","audio/75_B.mp3"]},
 
 {"id":"76","day":"Day 19","img":"images/76.png","audios":["audio/76_A.mp3","audio/76_B.mp3"]},
