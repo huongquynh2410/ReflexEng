@@ -98,7 +98,7 @@ function renderContent() {
         imgElement.classList.add('hidden');
         placeholder.classList.remove('hidden');
         document.getElementById('mode-title').innerText = "Roleplay Master";
-        document.getElementById('mode-instruction').innerText = "Luyện phản xạ âm thanh (Không hình):";
+        document.getElementById('mode-instruction').innerText = "Luyện phản xạ âm thanh:";
         currentItem.audios.forEach((path, index) => {
             const btn = document.createElement('button');
             btn.className = 'btn-audio';
