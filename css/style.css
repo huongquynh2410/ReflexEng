@@ -64,7 +64,28 @@ header p { color: var(--text-muted); font-size: 14px; }
 }
 .context-img { width: 100%; height: 100%; object-fit: contain; }
 
-/* --- SPEED CONTROL (Cân đối hàng ngang) --- */
+/* Hiệu ứng nhấp nháy cho tai nghe */
+.pulse-icon {
+    font-size: 60px;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+#audio-placeholder p {
+    font-size: 18px; /* Giảm nhẹ để không bị tràn trên màn hình nhỏ */
+    font-weight: bold;
+    color: var(--primary);
+    margin-top: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0 10px;
+    text-align: center;
+}
+
+/* --- SPEED CONTROL --- */
 #speed-control-area {
     margin: 15px auto; padding: 12px 20px; background-color: #f1f5f9; border-radius: 15px;
     border: 1px solid #e2e8f0; width: 90%; max-width: 320px; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 15px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -74,11 +95,18 @@ header p { color: var(--text-muted); font-size: 14px; }
     flex: 1; padding: 8px 12px; border-radius: 10px; border: 1.5px solid #e2e8f0; background-color: #ffffff;
     font-size: 14px; font-weight: 600; color: var(--dark); cursor: pointer; outline: none; transition: all 0.2s ease;
 }
-#speed-select:hover { border-color: var(--primary); }
 
 /* --- AUDIO BUTTONS --- */
-.audio-grid {display: grid;grid-template-columns: repeat(2, 1fr);gap: 12px;margin-top: 15px;width: 100%; }
-.btn-audio {width: 100%; 
+.audio-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+    width: 100%; 
+}
+
+.btn-audio {
+    width: 100%; 
     padding: 15px 10px;
     border-radius: 12px;
     border: 2px solid #e2e8f0;
@@ -90,17 +118,17 @@ header p { color: var(--text-muted); font-size: 14px; }
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;}
+    transition: all 0.2s;
+}
 .btn-audio:active { transform: translateY(2px); background: #f8fafc; }
-.btn-check {grid-column: span 2; /* Chiếm cả 2 cột */
+
+.btn-check {
+    grid-column: span 2; /* Chiếm cả 2 cột để nổi bật */
     border-color: var(--secondary) !important;
     background-color: #ecfdf5 !important;
-    color: var(--secondary) !important;}
-#audio-placeholder p {
-    font-size: 20px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 0 10px;}
+    color: var(--secondary) !important;
+}
+
 /* --- FOOTER & LOGIN --- */
 .next-btn { width: 100%; padding: 18px; background: var(--dark); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
 .next-btn:active { transform: scale(0.97); }
