@@ -289,6 +289,43 @@ header p {
 .btn-prompt { border-color: var(--primary); background-color: #eff6ff; color: var(--primary); }
 .btn-check { border-color: var(--secondary) !important; background-color: #ecfdf5 !important; color: var(--secondary) !important; }
 
+/* Style cho khu vực chọn tốc độ */
+#speed-control-area {
+    margin: 15px auto;
+    padding: 12px;
+    background-color: #f8f9fa; /* Màu nền xám nhạt cực nhẹ */
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    max-width: 250px; /* Giới hạn độ rộng để cân đối */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+#speed-control-area label {
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 600;
+}
+
+#speed-select {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    background-color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#speed-select:focus {
+    border-color: #007bff; /* Đổi màu viền khi nhấn vào */
+}
+
 /* --- FOOTER --- */
 .footer-nav { margin-top: auto; padding-top: 20px; }
 .next-btn {
