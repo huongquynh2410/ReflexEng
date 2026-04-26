@@ -41,7 +41,7 @@
                 </button>
                 <button class="menu-btn" style="background: var(--dark); box-shadow: 0 4px 12px rgba(30, 41, 59, 0.2);" onclick="startApp('roleplay')">
                     <strong>3. Roleplay Master</strong>
-                    <span>(Nghe & Nhập vai - Không hình ảnh)</span>
+                    <span>(Nghe & Nhập vai - Dành cho hội thoại dài)</span>
                 </button>
             </div>
         </div>
@@ -50,10 +50,6 @@
             <div class="study-header">
                 <button class="back-link" onclick="goHome()">← Quay lại</button>
                 <h3 id="mode-title-select">Chọn bài cần học</h3>
-            </div>
-            <div class="selection-controls">
-                <p class="instruction">Chọn các ngày muốn ôn tập:</p>
-                <button id="btn-select-all" class="btn-secondary-small" onclick="toggleSelectAll()">Bỏ chọn tất cả</button>
             </div>
             <div id="day-checklist" class="day-grid"></div>
             <div class="footer-nav">
@@ -87,6 +83,13 @@
 
             <div id="controls-container" class="control-group">
                 <p id="mode-instruction" class="instruction"></p>
+                
+                <div id="full-audio-container" class="hidden" style="margin-bottom: 15px; text-align: center;">
+                    <button class="btn-audio" id="btn-play-full" style="width: 100%; background: #fffbeb; border-color: #f6e05e; color: #b45309;">
+                        🔊 Phát toàn bộ hội thoại
+                    </button>
+                </div>
+
                 <div id="audio-grid" class="audio-grid"></div>
             </div>
             <div class="footer-nav">
