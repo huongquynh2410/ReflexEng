@@ -127,7 +127,7 @@ header p {
 /* --- DAY GRID (CHIA 3 CỘT) --- */
 .day-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* CHIA ĐỀU 3 CỘT */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 10px;
     margin-top: 5px;
     max-height: 350px;
@@ -137,7 +137,7 @@ header p {
 
 .day-item {
     display: flex;
-    flex-direction: column; /* Chuyển icon check xuống dưới hoặc cạnh tùy ý */
+    flex-direction: column; 
     align-items: center;
     justify-content: center;
     padding: 12px 5px;
@@ -164,7 +164,7 @@ header p {
 .day-item span {
     font-weight: 600;
     color: var(--dark);
-    font-size: 13px; /* Giảm nhẹ size chữ để vừa 3 cột */
+    font-size: 13px; 
 }
 
 /* --- VISUAL AREA --- */
@@ -265,7 +265,7 @@ header p {
 }
 
 .day-item.locked input {
-    display: none; /* Ẩn ô tích đi nếu chưa được mở */
+    display: none;
 }
 
 .login-box {
@@ -289,41 +289,56 @@ header p {
 .btn-prompt { border-color: var(--primary); background-color: #eff6ff; color: var(--primary); }
 .btn-check { border-color: var(--secondary) !important; background-color: #ecfdf5 !important; color: var(--secondary) !important; }
 
-/* Style cho khu vực chọn tốc độ */
+/* --- STYLE TỐC ĐỘ NGHE (FINAL UPDATED) --- */
 #speed-control-area {
     margin: 15px auto;
-    padding: 12px;
-    background-color: #f8f9fa; /* Màu nền xám nhạt cực nhẹ */
-    border-radius: 12px;
-    border: 1px solid #e0e0e0;
-    max-width: 250px; /* Giới hạn độ rộng để cân đối */
+    padding: 12px 20px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+    width: 90%;
+    max-width: 320px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Chuyển thành hàng ngang cho cân đối */
     align-items: center;
-    gap: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    justify-content: space-between;
+    gap: 15px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 #speed-control-area label {
-    font-size: 0.9rem;
-    color: #555;
-    font-weight: 600;
+    font-size: 13px;
+    color: var(--dark);
+    font-weight: 700;
+    white-space: nowrap;
 }
 
 #speed-select {
-    width: 100%;
+    flex: 1;
     padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #ced4da;
-    background-color: white;
-    font-size: 1rem;
+    border-radius: 10px;
+    border: 1.5px solid #e2e8f0;
+    background-color: #f8fafc;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark);
     cursor: pointer;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.2s ease;
+    appearance: none; /* Xóa mũi tên mặc định */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+#speed-select:hover {
+    border-color: var(--primary);
+    background-color: #ffffff;
 }
 
 #speed-select:focus {
-    border-color: #007bff; /* Đổi màu viền khi nhấn vào */
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 /* --- FOOTER --- */
