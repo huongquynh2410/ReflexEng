@@ -92,8 +92,15 @@ header p { color: var(--text-muted); font-size: 14px; }
     justify-content: center;
     transition: all 0.2s;}
 .btn-audio:active { transform: translateY(2px); background: #f8fafc; }
-.btn-check { border-color: var(--secondary) !important; background-color: #ecfdf5 !important; color: var(--secondary) !important; }
-
+.btn-check {grid-column: span 2; /* Chiếm cả 2 cột */
+    border-color: var(--secondary) !important;
+    background-color: #ecfdf5 !important;
+    color: var(--secondary) !important;}
+#audio-placeholder p {
+    font-size: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0 10px;
 /* --- FOOTER & LOGIN --- */
 .next-btn { width: 100%; padding: 18px; background: var(--dark); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
 .next-btn:active { transform: scale(0.97); }
