@@ -58,28 +58,38 @@ function startAutoplay() {
     btn.style.background = "#fee2e2";
     
     let currentIndex = 0;
-    const audios = currentItem.audios;
+    const audios = currentItem.audios; // Danh sách các câu lẻ (Câu 1, Câu 2...)
 
     function playSequence() {
+        // Kiểm tra nếu đã tắt autoplay hoặc đã phát hết danh sách câu
         if (!isAutoplay || currentIndex >= audios.length) {
             stopAutoplay();
             return;
         }
 
-        stopAllAudio();
+        stopAllAudio(); // Dừng câu trước đó (nếu có)
         currentAudio = new Audio(audios[currentIndex]);
+        
         const speed = document.getElementById('speed-select').value;
         const icon = document.querySelector('.pulse-icon');
         currentAudio.playbackRate = parseFloat(speed);
         
         currentAudio.onplay = () => icon?.classList.add('playing');
+        
         currentAudio.onended = () => {
             icon?.classList.remove('playing');
-            currentIndex++;
-            if (isAutoplay) setTimeout(playSequence, 1200); // Nghỉ 1.2s giữa các câu
+            currentIndex++; // Chuyển sang câu tiếp theo
+            
+            // ĐIỂM QUAN TRỌNG: Đợi 1.2 giây rồi tự gọi lại chính nó để phát câu kế tiếp
+            if (isAutoplay) {
+                setTimeout(playSequence, 1200); 
+            }
         };
+
         currentAudio.play();
     }
+
+    // Bắt đầu phát câu đầu tiên
     playSequence();
 }
 
