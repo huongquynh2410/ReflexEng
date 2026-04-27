@@ -47,9 +47,46 @@ header p { color: var(--text-muted); font-size: 14px; }
 .btn-reflex { background: var(--secondary); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
 
 /* --- STUDY HEADER --- */
-.study-header { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; position: relative; min-height: 40px; }
-.back-link { position: absolute; left: 0; background: #f1f5f9; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--dark); }
+.study-header { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    margin-bottom: 20px; 
+    position: relative; 
+    min-height: 40px; 
+}
+.back-link { 
+    position: absolute; 
+    left: 0; 
+    background: #f1f5f9; 
+    border: none; 
+    padding: 8px 12px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    color: var(--dark); 
+}
 .back-link:hover { background: #e2e8f0; }
+
+/* NÚT STOP KHẨN CẤP (MỚI) */
+#btn-stop-urgent {
+    position: absolute;
+    right: 0;
+    background: #fee2e2;
+    border: 1.5px solid #ef4444;
+    color: #ef4444;
+    padding: 4px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: 0.2s;
+}
+#btn-stop-urgent:hover {
+    background: #ef4444;
+    color: white;
+}
 
 /* --- DAY SELECTION --- */
 .day-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-height: 350px; overflow-y: auto; padding: 5px; }
@@ -75,7 +112,7 @@ header p { color: var(--text-muted); font-size: 14px; }
 }
 
 #audio-placeholder p {
-    font-size: 18px; /* Giảm nhẹ để không bị tràn trên màn hình nhỏ */
+    font-size: 18px;
     font-weight: bold;
     color: var(--primary);
     margin-top: 10px;
@@ -123,27 +160,20 @@ header p { color: var(--text-muted); font-size: 14px; }
 .btn-audio:active { transform: translateY(2px); background: #f8fafc; }
 
 .btn-check {
-    grid-column: span 2; /* Chiếm cả 2 cột để nổi bật */
+    grid-column: span 2;
     border-color: var(--secondary) !important;
     background-color: #ecfdf5 !important;
     color: var(--secondary) !important;
 }
 
-/* Hiệu ứng nhấp nháy mạnh hơn khi đang phát audio */
+/* Hiệu ứng nhấp nháy khi phát audio */
 .pulse-icon.playing {
     animation: playing-pulse 0.8s infinite alternate;
-    color: var(--primary); /* Đổi màu sang xanh khi đang phát */
+    color: var(--primary);
 }
-
 @keyframes playing-pulse {
-    from {
-        transform: scale(1);
-        filter: drop-shadow(0 0 2px rgba(37, 99, 235, 0.2));
-    }
-    to {
-        transform: scale(1.2);
-        filter: drop-shadow(0 0 15px rgba(37, 99, 235, 0.6));
-    }
+    from { transform: scale(1); filter: drop-shadow(0 0 2px rgba(37, 99, 235, 0.2)); }
+    to { transform: scale(1.2); filter: drop-shadow(0 0 15px rgba(37, 99, 235, 0.6)); }
 }
 
 /* --- FOOTER & LOGIN --- */
