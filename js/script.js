@@ -107,7 +107,7 @@ function renderDayChecklist() {
 
 function confirmSelection() {
     const selectedDays = Array.from(document.querySelectorAll('#day-checklist input:checked')).map(cb => cb.value);
-    if (selectedDays.length === 0) return alert("Chọn ít nhất 1 bài nhé Jennifer!");
+    if (selectedDays.length === 0) return alert("Chọn ít nhất 1 bài nhé!");
     filteredDatabase = database.filter(item => {
         const isSelectedDay = selectedDays.includes(item.day);
         const isRightMode = (currentMode === 'roleplay') ? ROLEPLAY_IDS.includes(item.id) : !ROLEPLAY_IDS.includes(item.id);
