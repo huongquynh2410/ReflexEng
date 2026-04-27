@@ -70,6 +70,7 @@
             <div class="study-header">
                 <button class="back-link" onclick="goHome()">← Quay lại</button>
                 <h3 id="mode-title">Chế độ học</h3>
+                <button id="btn-stop-urgent" onclick="stopAllAudio()">Stop</button>
             </div>
             
             <div class="visual-area" onclick="handleVisualClick()">
@@ -106,14 +107,6 @@
             <div class="footer-nav">
                 <button class="next-btn" onclick="renderContent()">Shuffle Next ➔</button>
             </div>
-        </div>
-        <div class="study-header">
-            <button class="back-link" onclick="goHome()">← Quay lại</button>
-            <h3 id="mode-title">Chế độ học</h3>
-    
-            <button onclick="stopAllAudio()" style="position: absolute; right: 0; background: #fee2e2; border: 1px solid #ef4444; color: #ef4444; padding: 8px; border-radius: 50%; cursor: pointer; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-size: 16px;" title="Dừng âm thanh">
-                Stop
-            </button>
         </div>
     </div>
 
