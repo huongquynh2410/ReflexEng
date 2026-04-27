@@ -42,7 +42,7 @@ function stopAllAudio() {
     }
 }
 
-// LOGIC AUTOPLAY
+// LOGIC AUTOPLAY (ĐÃ SỬA ĐỂ LẶP LẠI VÔ TẬN)
 function toggleAutoplay() {
     if (isAutoplay) {
         stopAutoplay();
@@ -54,20 +54,24 @@ function toggleAutoplay() {
 function startAutoplay() {
     isAutoplay = true;
     const btn = document.getElementById('btn-autoplay');
-    btn.innerText = "⏹️ Stop Auto";
-    btn.style.background = "#fee2e2";
+    if (btn) {
+        btn.innerText = "⏹️ Stop Auto";
+        btn.style.background = "#fee2e2";
+    }
     
     let currentIndex = 0;
-    const audios = currentItem.audios; // Danh sách các câu lẻ (Câu 1, Câu 2...)
+    const audios = currentItem.audios;
 
     function playSequence() {
-        // Kiểm tra nếu đã tắt autoplay hoặc đã phát hết danh sách câu
-        if (!isAutoplay || currentIndex >= audios.length) {
-            stopAutoplay();
-            return;
+        // Nếu người dùng bấm dừng thì thoát hẳn
+        if (!isAutoplay) return;
+
+        // NẾU PHÁT HẾT DANH SÁCH -> QUAY LẠI CÂU ĐẦU TIÊN (LẶP LẠI)
+        if (currentIndex >= audios.length) {
+            currentIndex = 0; 
         }
 
-        stopAllAudio(); // Dừng câu trước đó (nếu có)
+        stopAllAudio();
         currentAudio = new Audio(audios[currentIndex]);
         
         const speed = document.getElementById('speed-select').value;
@@ -78,9 +82,9 @@ function startAutoplay() {
         
         currentAudio.onended = () => {
             icon?.classList.remove('playing');
-            currentIndex++; // Chuyển sang câu tiếp theo
+            currentIndex++; // Tăng chỉ số để phát câu tiếp theo
             
-            // ĐIỂM QUAN TRỌNG: Đợi 1.2 giây rồi tự gọi lại chính nó để phát câu kế tiếp
+            // Đợi 1.2 giây rồi phát tiếp (hoặc lặp lại từ đầu)
             if (isAutoplay) {
                 setTimeout(playSequence, 1200); 
             }
@@ -89,7 +93,6 @@ function startAutoplay() {
         currentAudio.play();
     }
 
-    // Bắt đầu phát câu đầu tiên
     playSequence();
 }
 
@@ -157,7 +160,7 @@ function confirmSelection() {
 }
 
 function renderContent() {
-    stopAutoplay(); // Dừng autoplay nếu đang chạy khi chuyển bài
+    stopAutoplay(); 
     if (filteredDatabase.length === 0) return;
     currentItem = filteredDatabase[Math.floor(Math.random() * filteredDatabase.length)];
     const img = document.getElementById('display-img');
