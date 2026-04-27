@@ -4,6 +4,8 @@ let currentItem = null;
 let currentMode = '';
 let promptAudio = null;
 let isAllSelected = true;
+let currentAudio = null; 
+let isAutoplay = false; // Biến trạng thái autoplay
 
 const ROLEPLAY_IDS = ["105", "106", "107", "108"];
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSDiVOTUA-UZjnvzTogaMSTgb1uw7PFFp7hLLKdY_SXKJutAHuH8XbWyEGla5AGfxRftV0aUFqW81GM/pub?gid=0&single=true&output=csv';
@@ -14,54 +16,80 @@ fetch('js/data.json')
     .then(data => { database = data; console.log("Data Ready!"); });
 
 function getLessonTitle(id) {
-    const titles = {
-        "105": "AT THE STORE",
-        "106": "AT THE MEETING",
-        "107": "AT THE SHOP",
-        "108": "AT THE OFFICE"
-    };
+    const titles = { "105": "AT THE STORE", "106": "AT THE MEETING", "107": "AT THE SHOP", "108": "AT THE OFFICE" };
     return titles[id] || "ROLEPLAY MODE";
 }
 
-// Thêm biến toàn cục ở đầu file JS để quản lý audio đang phát
-let currentAudio = null; 
-
 function playAudioWithSpeed(path) {
     if (!path) return;
-
-    // BƯỚC 1: DỪNG TẤT CẢ AUDIO ĐANG PHÁT TRƯỚC ĐÓ
     stopAllAudio();
-
-    // BƯỚC 2: TẠO AUDIO MỚI
     currentAudio = new Audio(path);
     const speed = document.getElementById('speed-select').value;
     const icon = document.querySelector('.pulse-icon');
-
     currentAudio.playbackRate = parseFloat(speed);
-
-    currentAudio.onplay = () => {
-        if (icon) icon.classList.add('playing');
-    };
-
-    currentAudio.onended = () => {
-        if (icon) icon.classList.remove('playing');
-        currentAudio = null; // Giải phóng bộ nhớ khi phát xong
-    };
-
+    currentAudio.onplay = () => { if (icon) icon.classList.add('playing'); };
+    currentAudio.onended = () => { if (icon) icon.classList.remove('playing'); currentAudio = null; };
     currentAudio.play();
 }
 
-// HÀM DỪNG KHẨN CẤP (Dùng cho nút bấm hoặc dùng nội bộ)
 function stopAllAudio() {
     if (currentAudio) {
         currentAudio.pause();
-        currentAudio.currentTime = 0; // Đưa về giây đầu tiên
-        
-        // Xóa hiệu ứng nhấp nháy ngay lập tức
+        currentAudio.currentTime = 0;
         const icon = document.querySelector('.pulse-icon');
         if (icon) icon.classList.remove('playing');
-        
         currentAudio = null;
+    }
+}
+
+// LOGIC AUTOPLAY
+function toggleAutoplay() {
+    if (isAutoplay) {
+        stopAutoplay();
+    } else {
+        startAutoplay();
+    }
+}
+
+function startAutoplay() {
+    isAutoplay = true;
+    const btn = document.getElementById('btn-autoplay');
+    btn.innerText = "⏹️ Stop Auto";
+    btn.style.background = "#fee2e2";
+    
+    let currentIndex = 0;
+    const audios = currentItem.audios;
+
+    function playSequence() {
+        if (!isAutoplay || currentIndex >= audios.length) {
+            stopAutoplay();
+            return;
+        }
+
+        stopAllAudio();
+        currentAudio = new Audio(audios[currentIndex]);
+        const speed = document.getElementById('speed-select').value;
+        const icon = document.querySelector('.pulse-icon');
+        currentAudio.playbackRate = parseFloat(speed);
+        
+        currentAudio.onplay = () => icon?.classList.add('playing');
+        currentAudio.onended = () => {
+            icon?.classList.remove('playing');
+            currentIndex++;
+            if (isAutoplay) setTimeout(playSequence, 1200); // Nghỉ 1.2s giữa các câu
+        };
+        currentAudio.play();
+    }
+    playSequence();
+}
+
+function stopAutoplay() {
+    isAutoplay = false;
+    stopAllAudio();
+    const btn = document.getElementById('btn-autoplay');
+    if (btn) {
+        btn.innerText = "🔄 Autoplay";
+        btn.style.background = "#eff6ff";
     }
 }
 
@@ -119,6 +147,7 @@ function confirmSelection() {
 }
 
 function renderContent() {
+    stopAutoplay(); // Dừng autoplay nếu đang chạy khi chuyển bài
     if (filteredDatabase.length === 0) return;
     currentItem = filteredDatabase[Math.floor(Math.random() * filteredDatabase.length)];
     const img = document.getElementById('display-img');
@@ -171,11 +200,12 @@ function renderContent() {
 
 function handleVisualClick() { 
     if (currentMode === 'reflex' && promptAudio) playAudioWithSpeed(promptAudio);
-    // Thêm: Nhấn vào tai nghe ở mode Roleplay Master sẽ phát audio toàn bộ
     if (currentMode === 'roleplay' && currentItem.fullAudio) playAudioWithSpeed(currentItem.fullAudio);
 }
 
 function goHome() { 
+    stopAutoplay();
+    stopAllAudio();
     document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden')); 
     document.getElementById('home-screen').classList.remove('hidden'); 
 }
